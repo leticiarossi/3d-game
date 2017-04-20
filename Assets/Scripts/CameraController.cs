@@ -1,34 +1,11 @@
-﻿/*using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class CameraController : MonoBehaviour {
-
-	public Transform target;
-
-	public float distance = 10;
-	public float 
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-}
-*/
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
 	public Transform target;
 
-	public float distance = 10;
+	public float distance = 5;
 	public float minVerticalAngle = -80;
 	public float maxVerticalAngle = 80;
 
