@@ -89,4 +89,16 @@ public class PlayerController : MonoBehaviour {
 			isOnCourotine = false;
 		}
 	}
+
+	void OnTriggerEnter(Collider other) {
+		if (other.tag == "Waterball") {
+			Destroy (other.gameObject);
+
+			if (playerSize == 1) {
+				// Player dies
+			} else {
+				DecreaseSize ();
+			}
+		}
+	}
 }
