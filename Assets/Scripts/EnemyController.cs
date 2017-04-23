@@ -5,27 +5,35 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour {
 
 	public float speed = 1f;
-	public float shootInterval = 1f;
-	public float attackRadius = 10f;
+	public float shootInterval = 2f;
+	public float maxAttackDistance = 10f;
+	public float minChaseDistance = 2f;
+	public float smoothTime = 6f;
+	public int maxHits = 3;
 
 	public GameObject waterball;
+	public GameObject mesh;
 	public Transform waterballSpawn;
 	public Transform target;
 
-	private Rigidbody rb;
-	private int enemySize = 4; 
-	private float[] sizes = {0.4f, 0.6f, 0.8f, 1.0f};
+	private Vector3 smoothVelocity = Vector3.zero;
 	private float shootTime = 0;
-
-	void Start () {
-		rb = GetComponent<Rigidbody> ();
-	}
+	private int hitCount = 0; // How many times enemy is hit 
+	// Colors indicate how hot waterdrop is
+	private Color32[] colors = {new Color32(45, 139, 191, 255),
+								new Color32(117, 98, 128, 255),
+								new Color32(176, 72, 88, 255)};
 
 	void Update () {
-		LookAtTarget ();
 		float distance = Vector3.Distance(target.position, transform.position);
-		if (distance <= attackRadius && (Time.time - shootTime) > shootInterval) {
-			Fire ();
+		if (distance < maxAttackDistance) {
+			LookAtTarget ();
+			if (distance > minChaseDistance) {
+				Chase ();
+			}
+			if ((Time.time - shootTime) > shootInterval) {
+				Fire ();
+			}
 		}
 	}
 
@@ -36,22 +44,36 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	void Fire() {
-		
-			shootTime = Time.time;
-			// Create waterball
-			GameObject shot = Instantiate (waterball, waterballSpawn.position, waterballSpawn.rotation);
+		shootTime = Time.time;
+		// Create waterball
+		GameObject shot = Instantiate (waterball, waterballSpawn.position, waterballSpawn.rotation);
 
-			// Add velocity to it
-			shot.GetComponent<Rigidbody> ().velocity = shot.transform.forward * 6;
+		// Add velocity to it
+		shot.GetComponent<Rigidbody> ().velocity = shot.transform.forward * 6;
 
-			// Waterball vanishes after 2 seconds
-			Destroy (shot, 2.0f);
+		// Waterball vanishes after 2 seconds
+		Destroy (shot, 2.0f);
+	}
 
+	void Chase() {
+		//Move the enemy towards the player with smoothdamp
+
+		transform.position = Vector3.SmoothDamp(transform.position, target.position, ref smoothVelocity, smoothTime);
 	}
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Fireball") {
-			Destroy (other.gameObject);
+			Hit ();
+		}
+	}
+
+	void Hit() {
+		hitCount++;
+		if (hitCount < 3) {
+			mesh.GetComponent<Renderer> ().material.SetColor ("_Color", colors[hitCount]);
+		} else {
+			// Enemy dies
+			Destroy (transform.gameObject);
 		}
 	}
 }

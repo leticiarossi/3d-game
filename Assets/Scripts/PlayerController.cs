@@ -68,7 +68,6 @@ public class PlayerController : MonoBehaviour {
 
 	IEnumerator IncreaseSize(){
 		if (isOnCourotine) {
-			
 			while (transform.localScale.x < 1f) {
 				transform.localScale += new Vector3 (1, 1, 1) * Time.deltaTime * 0.1f;
 
@@ -92,8 +91,6 @@ public class PlayerController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Waterball") {
-			Destroy (other.gameObject);
-
 			if (playerSize == 1) {
 				// Player dies
 			} else {
