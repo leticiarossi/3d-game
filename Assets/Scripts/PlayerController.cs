@@ -34,6 +34,10 @@ public class PlayerController : MonoBehaviour {
 
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 
+		// Make player move forward in direction of camera
+		movement = Camera.main.transform.TransformDirection(movement);
+		movement.y = 0.0f;
+
 		// Make player face direction it is moving to
 		if (movement != Vector3.zero) {
 			transform.rotation = Quaternion.LookRotation (movement);

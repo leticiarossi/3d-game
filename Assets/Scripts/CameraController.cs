@@ -5,7 +5,7 @@ public class CameraController : MonoBehaviour {
 
 	public Transform target;
 
-	public float distance = 5;
+	public float distance = 10;
 	public float minVerticalAngle = -80;
 	public float maxVerticalAngle = 80;
 
