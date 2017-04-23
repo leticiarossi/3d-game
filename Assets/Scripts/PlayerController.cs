@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			Fire ();
 		}
+
+
+
 		if (playerSize < 4 && !isOnCourotine) {
 			isOnCourotine = true;
 			StartCoroutine (IncreaseSize ());
@@ -100,6 +103,8 @@ public class PlayerController : MonoBehaviour {
 			} else {
 				DecreaseSize ();
 			}
+		} else if (other.tag == "Fireplace") {
+			
 		}
 	}
 }
