@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour {
 	private int playerSize = 4; // Player has 4 different sizes (can shoot up to 3 times in a row)
 	private float[] sizes = {0.4f, 0.6f, 0.8f, 1.0f};
 	private bool isOnCourotine = false;
+	private float puddleHurtTime = 0;
+	private float puddleHurtInterval = 2f;
 
 	void Start() {
 		rb = GetComponent<Rigidbody> ();
@@ -105,6 +107,30 @@ public class PlayerController : MonoBehaviour {
 			
 		} else if (other.tag == "PowerUp") {
 			Destroy (other.gameObject);
+		} else if (other.tag == "Water") {
+			if ((Time.time - puddleHurtTime) > puddleHurtInterval) {
+				puddleHurtTime = Time.time;
+				if (playerSize == 1) {
+					// Player dies
+					Destroy (transform.gameObject);
+				} else {
+					DecreaseSize ();
+				}
+			}
+		}
+	}
+
+	void OnTriggerStay (Collider other) {
+		if (other.tag == "Water") {
+			if ((Time.time - puddleHurtTime) > puddleHurtInterval) {
+				puddleHurtTime = Time.time;
+				if (playerSize == 1) {
+					// Player dies
+					Destroy (transform.gameObject);
+				} else {
+					DecreaseSize ();
+				}
+			}
 		}
 	}
 }
