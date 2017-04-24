@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour {
 	private float puddleHurtTime = 0;
 	private float puddleHurtInterval = 2f;
 
+	private bool hasPowerUp = false;
+
 	void Start() {
 		rb = GetComponent<Rigidbody> ();
 	}
@@ -60,7 +62,9 @@ public class PlayerController : MonoBehaviour {
 			shot.GetComponent<Rigidbody> ().velocity = shot.transform.forward * 6;
 
 			// Make player smaller
-			DecreaseSize();
+			if (!hasPowerUp) {
+				DecreaseSize ();
+			}
 
 			// Fireball vanishes after 2 seconds
 			Destroy (shot, 2.0f);
@@ -96,6 +100,14 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	IEnumerator PowerUp() {
+		for (int i = 0; i < 200; i++) {
+			hasPowerUp = true;
+			yield return null;
+		}
+		hasPowerUp = false;
+	}
+
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Waterball") {
 			if (playerSize == 1) {
@@ -107,6 +119,7 @@ public class PlayerController : MonoBehaviour {
 			
 		} else if (other.tag == "PowerUp") {
 			Destroy (other.gameObject);
+			StartCoroutine (PowerUp ());
 		} else if (other.tag == "Water") {
 			if ((Time.time - puddleHurtTime) > puddleHurtInterval) {
 				puddleHurtTime = Time.time;
