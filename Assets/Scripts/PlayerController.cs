@@ -23,8 +23,6 @@ public class PlayerController : MonoBehaviour {
 			Fire ();
 		}
 
-
-
 		if (playerSize < 4 && !isOnCourotine) {
 			isOnCourotine = true;
 			StartCoroutine (IncreaseSize ());
@@ -105,6 +103,8 @@ public class PlayerController : MonoBehaviour {
 			}
 		} else if (other.tag == "Fireplace") {
 			
+		} else if (other.tag == "PowerUp") {
+			Destroy (other.gameObject);
 		}
 	}
 }
