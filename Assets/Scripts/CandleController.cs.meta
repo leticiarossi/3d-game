@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a17d490a048ab47149a7f4c041df0bef
+timeCreated: 1493025267
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - candle: {fileID: 1421088350866910, guid: 7880b43dc58df45dfa54cd42feefccb0, type: 2}
+  - litCandle: {fileID: 1535411683857190, guid: 1c73957dc062d408c9923ed4f262c5a3,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
