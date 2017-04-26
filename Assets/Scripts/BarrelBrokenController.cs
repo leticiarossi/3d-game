@@ -6,11 +6,12 @@ public class BarrelBrokenController : MonoBehaviour {
 
 	public bool hasItem;
 	public GameObject item;
+	public Transform powerUpSpawn;
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Fireball") {
 			if (hasItem) {
-				Instantiate (item, transform.position, transform.rotation);
+				Instantiate (item, powerUpSpawn.position, powerUpSpawn.rotation);
 			}
 			Destroy (transform.gameObject);
 		}

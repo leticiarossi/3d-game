@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour {
 	private int playerSize = 4; // Player has 4 different sizes (can shoot up to 3 times in a row)
 	private float[] sizes = {0.4f, 0.6f, 0.8f, 1.0f};
 	private bool isOnCourotine = false;
+	private float puddleHurtTime = 0;
+	private float puddleHurtInterval = 2f;
+
+	private bool hasPowerUp = false;
 
 	void Start() {
 		rb = GetComponent<Rigidbody> ();
@@ -22,8 +26,6 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			Fire ();
 		}
-
-
 
 		if (playerSize < 4 && !isOnCourotine) {
 			isOnCourotine = true;
@@ -60,7 +62,9 @@ public class PlayerController : MonoBehaviour {
 			shot.GetComponent<Rigidbody> ().velocity = shot.transform.forward * 6;
 
 			// Make player smaller
-			DecreaseSize();
+			if (!hasPowerUp) {
+				DecreaseSize ();
+			}
 
 			// Fireball vanishes after 2 seconds
 			Destroy (shot, 2.0f);
@@ -96,6 +100,14 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	IEnumerator PowerUp() {
+		for (int i = 0; i < 200; i++) {
+			hasPowerUp = true;
+			yield return null;
+		}
+		hasPowerUp = false;
+	}
+
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Waterball") {
 			if (playerSize == 1) {
@@ -105,6 +117,33 @@ public class PlayerController : MonoBehaviour {
 			}
 		} else if (other.tag == "Fireplace") {
 			
+		} else if (other.tag == "PowerUp") {
+			Destroy (other.gameObject);
+			StartCoroutine (PowerUp ());
+		} else if (other.tag == "Water") {
+			if ((Time.time - puddleHurtTime) > puddleHurtInterval) {
+				puddleHurtTime = Time.time;
+				if (playerSize == 1) {
+					// Player dies
+					Destroy (transform.gameObject);
+				} else {
+					DecreaseSize ();
+				}
+			}
+		}
+	}
+
+	void OnTriggerStay (Collider other) {
+		if (other.tag == "Water") {
+			if ((Time.time - puddleHurtTime) > puddleHurtInterval) {
+				puddleHurtTime = Time.time;
+				if (playerSize == 1) {
+					// Player dies
+					Destroy (transform.gameObject);
+				} else {
+					DecreaseSize ();
+				}
+			}
 		}
 	}
 }

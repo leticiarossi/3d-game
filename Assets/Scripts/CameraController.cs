@@ -3,14 +3,18 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
-	public Transform target;
+	public Transform player;
 
-	public float distance = 4;
+	public float maxDistance = 4;
+	public float minDistance = .5f;
+
 	public float minVerticalAngle = -80;
 	public float maxVerticalAngle = 80;
 
 	public float verticalSpeed = 150;
 	public float horizontalSpeed = 300;
+
+	private float curDistance;
 
 	private float angleX;
 	private float angleY;
@@ -32,9 +36,23 @@ public class CameraController : MonoBehaviour {
 		Vector3 offset = new Vector3(0,0,1);
 		offset = xRotation * offset;
 		offset = yRotation * offset;
-		offset *= distance;
 
-		transform.position = target.position + offset;
-		transform.rotation = Quaternion.LookRotation(target.position - transform.position, new Vector3(0,1,0));
+		RaycastHit hit;
+
+		// If there is an object between the player and the camera 
+		if (Physics.Raycast (player.position, transform.position, out hit, maxDistance)) { 
+			//&& hit.transform.tag == "Wall") {
+			// Place the camera in front of the obstacle but outside of the player
+			curDistance = Mathf.Clamp (hit.distance, minDistance, maxDistance);
+		} else { 
+			// Reset the camera to its normal distance
+			curDistance = maxDistance;
+
+		}
+
+		offset *= curDistance;
+
+		transform.position = player.position + offset;
+		transform.rotation = Quaternion.LookRotation(player.position - transform.position, new Vector3(0,1,0));
 	}
 }
