@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileController : MonoBehaviour {
+public class Projectile : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		Destroy (transform.gameObject);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BarrelBrokenController : MonoBehaviour {
+public class BarrelBroken : MonoBehaviour {
 
 	public bool hasItem;
 	public GameObject item;

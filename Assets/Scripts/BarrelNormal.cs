@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BarrelNormalController : MonoBehaviour {
+public class BarrelNormal : MonoBehaviour {
 
 	public GameObject brokenBarrel;
 
