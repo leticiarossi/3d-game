@@ -28,8 +28,9 @@ public class PlayerController : MonoBehaviour {
 	private float shootInterval = 0.2f;
 	private float puddleHurtTime = 0;
 	private float puddleHurtInterval = 2f;
-	private Color32 normalColor = new Color32(214, 155, 16, 255);
-	private Color32 powerUpColor = new Color32(214, 16, 16, 255);
+	private Color32 normalColor = new Color32 (214, 155, 16, 255);
+	private Color32 powerUpColor = new Color32 (214, 16, 16, 255);
+	private Color32 hurtColor = new Color32 (226, 229, 173, 255);
 
 	private bool hasPowerUp = false;
 
@@ -52,7 +53,7 @@ public class PlayerController : MonoBehaviour {
 
 		if (playerSize < 4 && !isOnCourotine) {
 			isOnCourotine = true;
-			StartCoroutine (IncreaseSize ());
+			StartCoroutine (IncreaseSizeRoutine ());
 		}
 	}
 
@@ -101,6 +102,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Hurt () {
+		StartCoroutine (HurtRoutine ());
 		if (playerSize == 1) {
 			if (lives < 1) { // Game over
 				Destroy (transform.gameObject);
@@ -116,7 +118,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	IEnumerator IncreaseSize(){
+	IEnumerator IncreaseSizeRoutine (){
 		if (isOnCourotine) {
 			while (transform.localScale.x < 1f) {
 				transform.localScale += new Vector3 (1, 1, 1) * Time.deltaTime * 0.1f;
@@ -139,7 +141,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	IEnumerator PowerUp() {
+	IEnumerator PowerUpRoutine () {
 		Color32 color;
 		for (int i = 0; i < 200; i++) {
 			hasPowerUp = true;
@@ -155,16 +157,28 @@ public class PlayerController : MonoBehaviour {
 		rndr.material.SetColor ("_EmissionColor", normalColor);
 	}
 
+	IEnumerator HurtRoutine() {
+		rndr.material.SetColor ("_EmissionColor", hurtColor);
+		yield return new WaitForSeconds(0.25f);
+		rndr.material.SetColor ("_EmissionColor", normalColor);
+	}
+
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Waterball" && !hasPowerUp) {
 			Hurt ();
-		} else if (other.tag == "PowerUp") {
-			Destroy (other.gameObject);
-			StartCoroutine (PowerUp ());
 		} else if (other.tag == "Water" && !hasPowerUp) {
 			if ((Time.time - puddleHurtTime) > puddleHurtInterval) {
 				puddleHurtTime = Time.time;
 				Hurt ();
+			}
+		} else if (other.tag == "PowerUp") {
+			Destroy (other.gameObject);
+			StartCoroutine (PowerUpRoutine ());
+		} else if (other.tag == "Heart") {
+			Destroy (other.gameObject);
+			if (lives < 3) {
+				lives++;
+				gameManager.SetLivesLeft (lives);
 			}
 		}
 	}
