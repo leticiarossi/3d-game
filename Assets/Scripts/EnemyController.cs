@@ -25,10 +25,15 @@ public class EnemyController : MonoBehaviour {
 	private Vector3 smoothVelocity = Vector3.zero;
 	private float shootTime = 0;
 	private int hitCount = 0; // How many times enemy is hit 
+	private Renderer rndr;
 	// Colors indicate how hot waterdrop is
 	private Color32[] colors = {new Color32(45, 139, 191, 255),
 								new Color32(117, 98, 128, 255),
 								new Color32(176, 72, 88, 255)};
+
+	void Start (){
+		rndr = mesh.GetComponent<Renderer> ();
+	}
 
 	void Update () {
 		float distance = Vector3.Distance(target.position, transform.position);
@@ -63,7 +68,6 @@ public class EnemyController : MonoBehaviour {
 
 	void Chase() {
 		//Move the enemy towards the player with smoothdamp
-
 		transform.position = Vector3.SmoothDamp(transform.position, target.position, ref smoothVelocity, smoothTime);
 	}
 
@@ -76,7 +80,7 @@ public class EnemyController : MonoBehaviour {
 	void Hit() {
 		hitCount++;
 		if (hitCount < 3) {
-			mesh.GetComponent<Renderer> ().material.SetColor ("_EmissionColor", colors[hitCount]);
+			rndr.material.SetColor ("_EmissionColor", colors[hitCount]);
 		} else {
 			// Enemy dies
 			Destroy (transform.gameObject);

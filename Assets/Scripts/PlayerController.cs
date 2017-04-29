@@ -2,7 +2,6 @@
 using System.Collections.Generic; 
 using UnityEngine;
 
-
 /*
  * Script to handle things related to the player, like movement, shooting fireballs, changes of its size,
  * using powerups, being hit/hurt, etc.
@@ -14,18 +13,25 @@ public class PlayerController : MonoBehaviour {
 
 	public GameObject fireball;
 	public Transform fireballSpawn;
+	public GameObject mesh;
 
 	private Rigidbody rb;
+	private Renderer rndr;
 	private int playerSize = 4; // Player has 4 different sizes (can shoot up to 3 times in a row)
 	private float[] sizes = {0.4f, 0.6f, 0.8f, 1.0f};
 	private bool isOnCourotine = false;
+	private float shootTime = 0;
+	private float shootInterval = 0.2f;
 	private float puddleHurtTime = 0;
 	private float puddleHurtInterval = 2f;
+	private Color32 normalColor = new Color32(214, 155, 16, 255);
+	private Color32 powerUpColor = new Color32(214, 16, 16, 255);
 
 	private bool hasPowerUp = false;
 
 	void Start() {
 		rb = GetComponent<Rigidbody> ();
+		rndr = mesh.GetComponent<Renderer> ();
 		GameStateManager gameManager = GameStateManager.Instance;
 		Transform spawnPosition = gameManager.getCurrentSpawnPoint ();
 		if (spawnPosition != null) {
@@ -34,7 +40,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update() {
-		if (Input.GetKeyDown (KeyCode.Space)) {
+		if (Input.GetKeyDown (KeyCode.Space) && (Time.time - shootTime) > shootInterval) {
+			shootTime = Time.time;
 			Fire ();
 		}
 
@@ -70,7 +77,7 @@ public class PlayerController : MonoBehaviour {
 			GameObject shot = Instantiate (fireball, fireballSpawn.position, fireballSpawn.rotation);
 
 			// Add velocity to it
-			shot.GetComponent<Rigidbody> ().velocity = shot.transform.forward * 6;
+			shot.GetComponent<Rigidbody> ().velocity = shot.transform.forward * 7;
 
 			// Make player smaller
 			if (!hasPowerUp) {
@@ -112,26 +119,32 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	IEnumerator PowerUp() {
+		Color32 color;
 		for (int i = 0; i < 200; i++) {
 			hasPowerUp = true;
+			if (i < 150) {
+				color = Color32.Lerp (normalColor, powerUpColor, Mathf.PingPong (Time.time, 0.5f));
+			} else {
+				color = Color32.Lerp (normalColor, powerUpColor, Mathf.PingPong (Time.time, 0.3f));
+			}
+			rndr.material.SetColor ("_EmissionColor", color);
 			yield return null;
 		}
 		hasPowerUp = false;
+		rndr.material.SetColor ("_EmissionColor", normalColor);
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (other.tag == "Waterball") {
+		if (other.tag == "Waterball" && !hasPowerUp) {
 			if (playerSize == 1) {
 				// Player dies
 			} else {
 				DecreaseSize ();
 			}
-		} else if (other.tag == "Fireplace") {
-			
 		} else if (other.tag == "PowerUp") {
 			Destroy (other.gameObject);
 			StartCoroutine (PowerUp ());
-		} else if (other.tag == "Water") {
+		} else if (other.tag == "Water" && !hasPowerUp) {
 			if ((Time.time - puddleHurtTime) > puddleHurtInterval) {
 				puddleHurtTime = Time.time;
 				if (playerSize == 1) {
