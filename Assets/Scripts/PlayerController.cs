@@ -12,11 +12,15 @@ public class PlayerController : MonoBehaviour {
 	public float speed = 2f;
 
 	public GameObject fireball;
-	public Transform fireballSpawn;
 	public GameObject mesh;
+	public Transform fireballSpawn;
+	public Transform reSpawnPoint;
 
 	private Rigidbody rb;
 	private Renderer rndr;
+	private GameStateManager gameManager;
+
+	private int lives;
 	private int playerSize = 4; // Player has 4 different sizes (can shoot up to 3 times in a row)
 	private float[] sizes = {0.4f, 0.6f, 0.8f, 1.0f};
 	private bool isOnCourotine = false;
@@ -32,11 +36,12 @@ public class PlayerController : MonoBehaviour {
 	void Start() {
 		rb = GetComponent<Rigidbody> ();
 		rndr = mesh.GetComponent<Renderer> ();
-		GameStateManager gameManager = GameStateManager.Instance;
+		gameManager = GameStateManager.Instance;
 		Transform spawnPosition = gameManager.getCurrentSpawnPoint ();
 		if (spawnPosition != null) {
 			transform.position = spawnPosition.position;
 		}
+		lives = gameManager.getLivesLeft ();
 	}
 
 	void Update() {
@@ -95,6 +100,22 @@ public class PlayerController : MonoBehaviour {
 		transform.localScale = new Vector3 (scale, scale, scale);
 	}
 
+	void Hurt () {
+		if (playerSize == 1) {
+			if (lives < 1) { // Game over
+				Destroy (transform.gameObject);
+			} else {
+				// Player loses 1 life
+				transform.position = reSpawnPoint.position;
+				transform.rotation = reSpawnPoint.rotation;
+				lives--;
+				gameManager.setLivesLeft (lives);
+			}
+		} else {
+			DecreaseSize ();
+		}
+	}
+
 	IEnumerator IncreaseSize(){
 		if (isOnCourotine) {
 			while (transform.localScale.x < 1f) {
@@ -136,37 +157,23 @@ public class PlayerController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Waterball" && !hasPowerUp) {
-			if (playerSize == 1) {
-				// Player dies
-			} else {
-				DecreaseSize ();
-			}
+			Hurt ();
 		} else if (other.tag == "PowerUp") {
 			Destroy (other.gameObject);
 			StartCoroutine (PowerUp ());
 		} else if (other.tag == "Water" && !hasPowerUp) {
 			if ((Time.time - puddleHurtTime) > puddleHurtInterval) {
 				puddleHurtTime = Time.time;
-				if (playerSize == 1) {
-					// Player dies
-					Destroy (transform.gameObject);
-				} else {
-					DecreaseSize ();
-				}
+				Hurt ();
 			}
 		}
 	}
 
 	void OnTriggerStay (Collider other) {
-		if (other.tag == "Water") {
+		if (other.tag == "Water" && !hasPowerUp) {
 			if ((Time.time - puddleHurtTime) > puddleHurtInterval) {
 				puddleHurtTime = Time.time;
-				if (playerSize == 1) {
-					// Player dies
-					Destroy (transform.gameObject);
-				} else {
-					DecreaseSize ();
-				}
+				Hurt ();
 			}
 		}
 	}
