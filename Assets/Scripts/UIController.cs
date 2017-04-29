@@ -25,6 +25,5 @@ public class UIController : MonoBehaviour {
 
 	void setCountText(){
 		countText.text = candleCount.ToString () + "/" + totalCandles;
-		Debug.Log (candleCount.ToString () + "/" + totalCandles);
 	}
 }
