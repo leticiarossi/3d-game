@@ -1,6 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 using UnityEngine;
+using UnityEngine.UI;
+
 
 /*
  * Script to handle things related to the player, like movement, shooting fireballs, changes of its size,
@@ -22,14 +24,21 @@ public class PlayerController : MonoBehaviour {
 	private float puddleHurtInterval = 2f;
 
 	private bool hasPowerUp = false;
+	public Text countText;
+	private int candleCount;
 
 	void Start() {
 		rb = GetComponent<Rigidbody> ();
+<<<<<<< Updated upstream
 		GameStateManager gameManager = GameStateManager.Instance;
 		Transform spawnPosition = gameManager.getCurrentSpawnPoint ();
 		if (spawnPosition != null) {
 			transform.position = spawnPosition.position;
 		}
+=======
+		candleCount = 0;
+		setCountText ();
+>>>>>>> Stashed changes
 	}
 
 	void Update() {
@@ -130,6 +139,9 @@ public class PlayerController : MonoBehaviour {
 		} else if (other.tag == "PowerUp") {
 			Destroy (other.gameObject);
 			StartCoroutine (PowerUp ());
+		} else if (other.tag=="Candle"){
+			candleCount++;
+			setCountText ();
 		} else if (other.tag == "Water") {
 			if ((Time.time - puddleHurtTime) > puddleHurtInterval) {
 				puddleHurtTime = Time.time;
@@ -155,5 +167,9 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	void setCountText(){
+		countText.text = candleCount.ToString () + "/10";
 	}
 }
