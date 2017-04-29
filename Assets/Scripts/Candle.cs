@@ -23,7 +23,7 @@ public class Candle : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter (Collider other){
+	void OnTriggerEnter (Collider other) {
 		if (!isLit && other.tag == "Fireball") {
 			fire.SetActive (true);
 			isLit = true;

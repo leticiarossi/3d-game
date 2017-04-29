@@ -15,6 +15,7 @@ public class EnemyController : MonoBehaviour {
 	public float minChaseDistance = 2f;
 	public float smoothTime = 6f;
 	public int maxHits = 3;
+	public bool chase = false;
 
 	public GameObject waterball;
 	public GameObject mesh;
@@ -33,7 +34,7 @@ public class EnemyController : MonoBehaviour {
 		float distance = Vector3.Distance(target.position, transform.position);
 		if (distance < maxAttackDistance) {
 			LookAtTarget ();
-			if (distance > minChaseDistance) {
+			if (distance > minChaseDistance && chase) {
 				Chase ();
 			}
 			if ((Time.time - shootTime) > shootInterval) {
@@ -75,7 +76,7 @@ public class EnemyController : MonoBehaviour {
 	void Hit() {
 		hitCount++;
 		if (hitCount < 3) {
-			mesh.GetComponent<Renderer> ().material.SetColor ("_Color", colors[hitCount]);
+			mesh.GetComponent<Renderer> ().material.SetColor ("_EmissionColor", colors[hitCount]);
 		} else {
 			// Enemy dies
 			Destroy (transform.gameObject);
