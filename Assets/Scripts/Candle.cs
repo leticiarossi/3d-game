@@ -2,22 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Script to handle candles being lit or not.
+ */
+
 public class Candle : MonoBehaviour {
 
 	public GameObject fire;
-	bool isLit = false;
+
+	private GameStateManager gameManager;
+	private bool isLit;
+	private int candleListKey;
 
 	void Start () {
-		fire.SetActive (false);
+		gameManager = GameStateManager.Instance;
+		candleListKey = (Application.loadedLevel * 100) + transform.GetSiblingIndex ();
+		isLit = gameManager.getCandleStatus (candleListKey);
+		if (!isLit) {
+			fire.SetActive (false);
+		}
 	}
 
 	void OnTriggerEnter (Collider other){
 		if (!isLit && other.tag == "Fireball") {
 			fire.SetActive (true);
 			isLit = true;
+			gameManager.SetCandleStatus (candleListKey, isLit);
 		} else if (isLit && other.tag == "Waterball") {
 			fire.SetActive (false);
 			isLit = false;
+			gameManager.SetCandleStatus (candleListKey, isLit);
 		}
 	}
 }

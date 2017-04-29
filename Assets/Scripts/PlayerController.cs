@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Script to handle things related to the player, like movement, shooting fireballs, changes of its size,
+ * using powerups, being hit/hurt, etc.
+ */
+
 public class PlayerController : MonoBehaviour {
 
 	public float speed = 2f;
@@ -20,6 +25,11 @@ public class PlayerController : MonoBehaviour {
 
 	void Start() {
 		rb = GetComponent<Rigidbody> ();
+		GameStateManager gameManager = GameStateManager.Instance;
+		Transform spawnPosition = gameManager.getCurrentSpawnPoint ();
+		if (spawnPosition != null) {
+			transform.position = spawnPosition.position;
+		}
 	}
 
 	void Update() {

@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour {
 	void startTaskOnClick()
 	{
 		UnityEngine.Application.LoadLevel (1);
+		DontDestroyOnLoad(GameStateManager.Instance);
+		GameStateManager.Instance.StartState();
 	}
 
 	void quitTaskOnClick()

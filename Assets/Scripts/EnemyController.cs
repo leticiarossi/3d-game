@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Script to handle things related to the enemy (the water drop), like shooting waterballs at the player,
+ * being hurt, changes of its color, dying, etc.
+ */
+
 public class EnemyController : MonoBehaviour {
 
 	public float speed = 1f;
