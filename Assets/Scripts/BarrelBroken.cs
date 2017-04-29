@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Script to handle barrel being shot by the player for the second time.
+ */
+
 public class BarrelBroken : MonoBehaviour {
 
 	public bool hasItem;

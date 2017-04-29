@@ -16,14 +16,14 @@ public class ExitDoor : MonoBehaviour {
 
 	void Awake () {
 		gameManager = GameStateManager.Instance;
-		if (spawnName == gameManager.getLastSpawnName ()) {
-			gameManager.setCurrentSpawnPoint (spawnPoint);
+		if (spawnName == gameManager.GetLastSpawnName ()) {
+			gameManager.SetCurrentSpawnPoint (spawnPoint);
 		}
 	}
 
 	void OnTriggerEnter (Collider other) {
 		if (other.tag == "Player") {
-			gameManager.setLastSpawnName (spawnName);
+			gameManager.SetLastSpawnName (spawnName);
 			Application.LoadLevel (roomToLoad);
 		}
 	}

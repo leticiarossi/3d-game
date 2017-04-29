@@ -44,15 +44,15 @@ public class GameStateManager : MonoBehaviour {
 
 	// Setter methods //
 
-	public void setLastSpawnName (string spawn) {
+	public void SetLastSpawnName (string spawn) {
 		lastSpawnName = spawn;
 	}
 
-	public void setCurrentSpawnPoint (Transform spawn) {
+	public void SetCurrentSpawnPoint (Transform spawn) {
 		currentSpawnPoint = spawn;
 	}
 
-	public void setLivesLeft (int l) {
+	public void SetLivesLeft (int l) {
 		lives = l;
 	}
 
@@ -66,15 +66,15 @@ public class GameStateManager : MonoBehaviour {
 
 	// Getter methods //
 
-	public string getLastSpawnName () {
+	public string GetLastSpawnName () {
 		return lastSpawnName;
 	}
 
-	public Transform getCurrentSpawnPoint () {
+	public Transform GetCurrentSpawnPoint () {
 		return currentSpawnPoint;
 	}
 
-	public int getLivesLeft () {
+	public int GetLivesLeft () {
 		return lives;
 	}
 
@@ -86,7 +86,7 @@ public class GameStateManager : MonoBehaviour {
 		return candlesLitCounter;
 	}
 
-	public bool getCandleStatus (int key) {
+	public bool GetCandleStatus (int key) {
 		if (!candlesList.ContainsKey (key)) { // Method is being called for the first time
 			candlesList [key] = false;
 		}

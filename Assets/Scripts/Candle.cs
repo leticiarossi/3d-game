@@ -17,7 +17,7 @@ public class Candle : MonoBehaviour {
 	void Start () {
 		gameManager = GameStateManager.Instance;
 		candleListKey = (Application.loadedLevel * 100) + transform.GetSiblingIndex ();
-		isLit = gameManager.getCandleStatus (candleListKey);
+		isLit = gameManager.GetCandleStatus (candleListKey);
 		if (!isLit) {
 			fire.SetActive (false);
 		}

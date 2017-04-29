@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Script to manage and control the camera.
+ */
+
 public class CameraController : MonoBehaviour {
 
 	public Transform player;

@@ -10,17 +10,20 @@ public class UIController : MonoBehaviour {
 	private GameStateManager gameManager;
 	private int candleCount;
 	private int totalCandles;
+	private int lives;
 
 	void Start () {
 		gameManager = GameStateManager.Instance;
 		totalCandles = gameManager.GetTotalCandlesNumber ();
 		candleCount = gameManager.GetCandlesLitCounter ();
+		lives = gameManager.GetLivesLeft ();
 		setCountText ();
 	}
 
 	void Update () {
 		candleCount = gameManager.GetCandlesLitCounter ();
 		setCountText ();
+		lives = gameManager.GetLivesLeft ();
 	}
 
 	void setCountText(){

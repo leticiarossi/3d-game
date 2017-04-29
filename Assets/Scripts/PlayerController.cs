@@ -37,11 +37,11 @@ public class PlayerController : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 		rndr = mesh.GetComponent<Renderer> ();
 		gameManager = GameStateManager.Instance;
-		Transform spawnPosition = gameManager.getCurrentSpawnPoint ();
+		Transform spawnPosition = gameManager.GetCurrentSpawnPoint ();
 		if (spawnPosition != null) {
 			transform.position = spawnPosition.position;
 		}
-		lives = gameManager.getLivesLeft ();
+		lives = gameManager.GetLivesLeft ();
 	}
 
 	void Update() {
@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour {
 				transform.position = reSpawnPoint.position;
 				transform.rotation = reSpawnPoint.rotation;
 				lives--;
-				gameManager.setLivesLeft (lives);
+				gameManager.SetLivesLeft (lives);
 			}
 		} else {
 			DecreaseSize ();
