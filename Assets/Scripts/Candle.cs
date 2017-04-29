@@ -27,10 +27,12 @@ public class Candle : MonoBehaviour {
 		if (!isLit && other.tag == "Fireball") {
 			fire.SetActive (true);
 			isLit = true;
+			gameManager.UpdateCandlesLit (1);
 			gameManager.SetCandleStatus (candleListKey, isLit);
 		} else if (isLit && other.tag == "Waterball") {
 			fire.SetActive (false);
 			isLit = false;
+			gameManager.UpdateCandlesLit (-1);
 			gameManager.SetCandleStatus (candleListKey, isLit);
 		}
 	}

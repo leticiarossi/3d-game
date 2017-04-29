@@ -13,7 +13,7 @@ public class ButtonManager : MonoBehaviour {
 	public Button exitButton;
 	public Button restartButton;
 
-	void Start () {
+	void Start () { 
 		Button contBtn = continueButton.GetComponent<Button>();
 		Button exBtn = exitButton.GetComponent<Button> ();
 		Button rstrtBtn = restartButton.GetComponent<Button> ();
