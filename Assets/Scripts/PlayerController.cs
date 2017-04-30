@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour {
 
 	public AudioClip fireSound;
 	public AudioClip splash;
+	public AudioClip fireSizzle;
 	private AudioSource source;
 
 	void Start() {
@@ -127,6 +128,7 @@ public class PlayerController : MonoBehaviour {
 				// Player loses 1 life
 				transform.position = reSpawnPoint.position;
 				transform.rotation = reSpawnPoint.rotation;
+				playAudio (fireSizzle);
 				lives--;
 				gameManager.SetLivesLeft (lives);
 			}
