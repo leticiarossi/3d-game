@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour {
+public class StartMenu : MonoBehaviour {
 	
 	public Button StartButton;
 	public Button QuitButton;
