@@ -34,7 +34,11 @@ public class PlayerController : MonoBehaviour {
 
 	private bool hasPowerUp = false;
 
+	public AudioClip fireSound;
+	private AudioSource source;
+
 	void Start() {
+		source = GetComponent<AudioSource> ();
 		rb = GetComponent<Rigidbody> ();
 		rndr = mesh.GetComponent<Renderer> ();
 		gameManager = GameStateManager.Instance;
@@ -89,6 +93,9 @@ public class PlayerController : MonoBehaviour {
 			if (!hasPowerUp) {
 				DecreaseSize ();
 			}
+
+			//play Sound
+			playAudio(fireSound);
 
 			// Fireball vanishes after 2 seconds
 			Destroy (shot, 2.0f);
@@ -190,5 +197,12 @@ public class PlayerController : MonoBehaviour {
 				Hurt ();
 			}
 		}
+	}
+
+	void playAudio(AudioClip clip){
+		source.clip = clip;
+		source.volume = 1f;
+		source.pitch = 1f;
+		source.PlayOneShot (clip);
 	}
 }

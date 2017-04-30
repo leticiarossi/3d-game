@@ -6,10 +6,10 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour {
 
 	public Text countText;
+	public int totalCandles;
 
 	private GameStateManager gameManager;
 	private int candleCount;
-	private int totalCandles=10;
 	private int livesLeft;
 
 	public RawImage life1;
@@ -22,7 +22,6 @@ public class UIController : MonoBehaviour {
 		candleCount = gameManager.GetCandlesLitCounter ();
 		livesLeft = gameManager.GetLivesLeft ();
 		setCountText ();
-
 		life1.enabled = true;
 		life2.enabled = true;
 		life3.enabled = true;
@@ -33,17 +32,15 @@ public class UIController : MonoBehaviour {
 		setCountText ();
 		livesLeft = gameManager.GetLivesLeft ();
 		UpdateLives ();
-		if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale==0){
-			MenuManager.EnablePause();
+		if (Input.GetKeyDown (KeyCode.Escape) && (Time.timeScale == 1)) {
+			MenuManager.EnablePause ();
+		} else if (Input.GetKeyDown (KeyCode.Escape) && (Time.timeScale == 0)){
+				MenuManager.DisablePause ();
 		}
-		if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale==1){
-			MenuManager.DisablePause();
-		}
-	
 	}
 
 	void setCountText(){
-		countText.text = candleCount.ToString () + "/" + totalCandles;
+		countText.text = candleCount.ToString () + "/" + totalCandles.ToString();
 	}
 
 	void UpdateLives(){

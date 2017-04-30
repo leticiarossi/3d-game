@@ -11,15 +11,12 @@ public class ButtonManager : MonoBehaviour {
 
 	public Button continueButton; 
 	public Button exitButton;
-	public Button restartButton;
 
 	void Start () { 
 		Button contBtn = continueButton.GetComponent<Button>();
 		Button exBtn = exitButton.GetComponent<Button> ();
-		Button rstrtBtn = restartButton.GetComponent<Button> ();
 		contBtn.onClick.AddListener(ContinueTaskOnClick);
 		exBtn.onClick.AddListener (ExitTaskOnClick);
-		rstrtBtn.onClick.AddListener (RestartTaskOnClick);
 	}
 
 	void ContinueTaskOnClick(){
@@ -28,9 +25,5 @@ public class ButtonManager : MonoBehaviour {
 
 	void ExitTaskOnClick(){
 		SceneManager.LoadScene (0, LoadSceneMode.Single);
-	}
-
-	void RestartTaskOnClick(){
-		SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
 	}
 }
