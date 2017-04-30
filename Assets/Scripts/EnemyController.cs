@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour {
 
-	public float shootInterval = 2f;
+	public float shootInterval = 3f;
 	public float maxAttackDistance = 10f;
 	public float smoothTime = 6f;
 	public int maxHits = 3;

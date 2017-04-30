@@ -19,6 +19,7 @@ public class StartMenu : MonoBehaviour {
 
 	void startTaskOnClick()
 	{
+		Time.timeScale = 1;
 		UnityEngine.Application.LoadLevel (1);
 		DontDestroyOnLoad(GameStateManager.Instance);
 		GameStateManager.Instance.StartState();
