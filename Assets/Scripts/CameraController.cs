@@ -35,6 +35,11 @@ public class CameraController : MonoBehaviour {
 		angleX = Mathf.Clamp(angleX, minVerticalAngle, maxVerticalAngle);
 		angleY %= 360;
 
+		// Camera can't go below the floor
+		if (angleX > 0) {
+			angleX = 0;
+		}
+
 		Quaternion xRotation = Quaternion.AngleAxis(angleX, new Vector3(1,0,0));
 		Quaternion yRotation = Quaternion.AngleAxis(angleY, new Vector3(0,1,0));
 		Vector3 offset = new Vector3(0,0,1);
@@ -42,11 +47,10 @@ public class CameraController : MonoBehaviour {
 		offset = yRotation * offset;
 
 		RaycastHit hit;
-		var layerMask = 1 << 8;
+		var wallMask = 1 << 8;
 
 		// If there is an object between the player and the camera 
-		if (Physics.Raycast (player.position, transform.position, out hit, maxDistance, layerMask)) { 
-			//&& hit.transform.tag == "Wall") {
+		if (Physics.Raycast (player.position, transform.position, out hit, maxDistance, wallMask)) { 
 			// Place the camera in front of the obstacle but outside of the player
 			curDistance = Mathf.Clamp (hit.distance, minDistance, maxDistance);
 		} else { 
