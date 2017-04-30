@@ -62,11 +62,11 @@ public class PlayerController : MonoBehaviour {
 			StartCoroutine (IncreaseSizeRoutine ());
 		}
 
-		if (gameManager.GetCandlesLitCounter == gameManager.GetTotalCandlesNumber) {
+		if (gameManager.GetCandlesLitCounter() == gameManager.GetTotalCandlesNumber()) {
 			SceneManager.LoadScene (11, LoadSceneMode.Single);
 		}
 
-		if (gameManager.GetLivesLeft == 0) {
+		if (gameManager.GetLivesLeft() == 0) {
 			SceneManager.LoadScene (10, LoadSceneMode.Single);
 		}
 	}
