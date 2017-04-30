@@ -42,9 +42,10 @@ public class CameraController : MonoBehaviour {
 		offset = yRotation * offset;
 
 		RaycastHit hit;
+		var layerMask = 1 << 8;
 
 		// If there is an object between the player and the camera 
-		if (Physics.Raycast (player.position, transform.position, out hit, maxDistance)) { 
+		if (Physics.Raycast (player.position, transform.position, out hit, maxDistance, layerMask)) { 
 			//&& hit.transform.tag == "Wall") {
 			// Place the camera in front of the obstacle but outside of the player
 			curDistance = Mathf.Clamp (hit.distance, minDistance, maxDistance);
