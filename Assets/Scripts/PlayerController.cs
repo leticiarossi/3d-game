@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic; 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*
  * Script to handle things related to the player, like movement, shooting fireballs, changes of its size,
@@ -59,6 +60,14 @@ public class PlayerController : MonoBehaviour {
 		if (playerSize < 4 && !isOnCourotine) {
 			isOnCourotine = true;
 			StartCoroutine (IncreaseSizeRoutine ());
+		}
+
+		if (gameManager.GetCandlesLitCounter == gameManager.GetTotalCandlesNumber) {
+			SceneManager.LoadScene (11, LoadSceneMode.Single);
+		}
+
+		if (gameManager.GetLivesLeft == 0) {
+			SceneManager.LoadScene (10, LoadSceneMode.Single);
 		}
 	}
 

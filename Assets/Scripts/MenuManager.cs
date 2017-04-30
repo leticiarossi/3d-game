@@ -8,8 +8,7 @@ public class MenuManager : MonoBehaviour
 	public static MenuManager instance;
 	public GameObject PauseMenu;
 
-	void Awake ()
-	{
+	void Awake (){
 		instance = this;
 		PauseMenu.SetActive (false);
 	}
