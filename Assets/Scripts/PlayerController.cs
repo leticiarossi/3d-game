@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour {
 	private bool hasPowerUp = false;
 
 	public AudioClip fireSound;
+	public AudioClip splash;
 	private AudioSource source;
 
 	void Start() {
@@ -172,8 +173,10 @@ public class PlayerController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Waterball" && !hasPowerUp) {
+			playAudio (splash);
 			Hurt ();
 		} else if (other.tag == "Water" && !hasPowerUp) {
+			playAudio (splash);
 			if ((Time.time - puddleHurtTime) > puddleHurtInterval) {
 				puddleHurtTime = Time.time;
 				Hurt ();
@@ -192,6 +195,7 @@ public class PlayerController : MonoBehaviour {
 
 	void OnTriggerStay (Collider other) {
 		if (other.tag == "Water" && !hasPowerUp) {
+			playAudio (splash);
 			if ((Time.time - puddleHurtTime) > puddleHurtInterval) {
 				puddleHurtTime = Time.time;
 				Hurt ();
