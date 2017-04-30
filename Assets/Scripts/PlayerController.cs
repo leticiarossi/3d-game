@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour {
 	private Renderer rndr;
 	private GameStateManager gameManager;
 
-	private int lives;
 	private int playerSize = 4; // Player has 4 different sizes (can shoot up to 3 times in a row)
 	private float[] sizes = {0.4f, 0.6f, 0.8f, 1.0f};
 	private bool isOnCourotine = false;
@@ -49,7 +48,6 @@ public class PlayerController : MonoBehaviour {
 		if (spawnPosition != null) {
 			transform.position = spawnPosition.position;
 		}
-		lives = gameManager.GetLivesLeft ();
 	}
 
 	void Update() {
@@ -65,10 +63,6 @@ public class PlayerController : MonoBehaviour {
 
 		if (gameManager.GetCandlesLitCounter() == gameManager.GetTotalCandlesNumber()) {
 			SceneManager.LoadScene (11, LoadSceneMode.Single);
-		}
-
-		if (gameManager.GetLivesLeft() == 0) {
-			SceneManager.LoadScene (10, LoadSceneMode.Single);
 		}
 	}
 
@@ -125,8 +119,6 @@ public class PlayerController : MonoBehaviour {
 				transform.position = reSpawnPoint.position;
 				transform.rotation = reSpawnPoint.rotation;
 				playAudio (fireSizzle);
-				lives--;
-				gameManager.SetLivesLeft (lives);
 		} else {
 			DecreaseSize ();
 		}
@@ -190,12 +182,6 @@ public class PlayerController : MonoBehaviour {
 		} else if (other.tag == "PowerUp") {
 			Destroy (other.gameObject);
 			StartCoroutine (PowerUpRoutine ());
-		} else if (other.tag == "Heart") {
-			Destroy (other.gameObject);
-			if (lives < 3) {
-				lives++;
-				gameManager.SetLivesLeft (lives);
-			}
 		}
 	}
 

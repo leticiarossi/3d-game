@@ -13,7 +13,6 @@ public class GameStateManager : MonoBehaviour {
 	private string lastSpawnName;
 	private Transform currentSpawnPoint;
 
-	private int lives;
 	private int totalCandles;
 
 	private int candlesLitCounter;
@@ -38,7 +37,6 @@ public class GameStateManager : MonoBehaviour {
 	public void StartState () {
 		lastSpawnName = "";
 		currentSpawnPoint = null;
-		lives = 3;
 		totalCandles = 24;
 		candlesLitCounter = 0;
 		candlesList = new Dictionary<int, bool> ();
@@ -52,10 +50,6 @@ public class GameStateManager : MonoBehaviour {
 
 	public void SetCurrentSpawnPoint (Transform spawn) {
 		currentSpawnPoint = spawn;
-	}
-
-	public void SetLivesLeft (int l) {
-		lives = l;
 	}
 
 	public void UpdateCandlesLit (int n) {
@@ -75,11 +69,7 @@ public class GameStateManager : MonoBehaviour {
 	public Transform GetCurrentSpawnPoint () {
 		return currentSpawnPoint;
 	}
-
-	public int GetLivesLeft () {
-		return lives;
-	}
-
+		
 	public int GetTotalCandlesNumber () {
 		return totalCandles;
 	}
