@@ -122,18 +122,11 @@ public class PlayerController : MonoBehaviour {
 	void Hurt () {
 		StartCoroutine (HurtRoutine ());
 		if (playerSize == 1) {
-			//if (lives < 1) { // Game over
-				//Debug.Log(lives);
-				//Destroy (transform.gameObject);
-
-			//} else {
-				// Player loses 1 life
 				transform.position = reSpawnPoint.position;
 				transform.rotation = reSpawnPoint.rotation;
 				playAudio (fireSizzle);
 				lives--;
 				gameManager.SetLivesLeft (lives);
-			//}
 		} else {
 			DecreaseSize ();
 		}
