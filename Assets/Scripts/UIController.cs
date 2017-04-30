@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour {
 
 	public Text countText;
-	public int totalCandles;
+	private int totalCandles;
 
 	private GameStateManager gameManager;
 	private int candleCount;
@@ -40,7 +40,7 @@ public class UIController : MonoBehaviour {
 	}
 
 	void setCountText(){
-		countText.text = candleCount.ToString () + "/" + totalCandles.ToString();
+		countText.text = candleCount.ToString () + "/ " + totalCandles.ToString();
 	}
 
 	void UpdateLives(){
