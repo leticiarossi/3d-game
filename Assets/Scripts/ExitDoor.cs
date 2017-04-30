@@ -25,12 +25,19 @@ public class ExitDoor : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other) {
 		if (other.tag == "Player") {
+			other.attachedRigidbody.constraints = RigidbodyConstraints.FreezeAll;
 			gameManager.SetLastSpawnName (spawnName);
 			source.clip = doorClose;
 			source.volume = 1f;
 			source.pitch = 1f;
 			source.PlayOneShot (doorClose);
-			Application.LoadLevel (roomToLoad);
+			StartCoroutine (delayLevelLoad ());
 		}
+	}
+
+	IEnumerator delayLevelLoad(){
+		
+		yield return new WaitForSeconds (1f);
+		Application.LoadLevel (roomToLoad);
 	}
 }
