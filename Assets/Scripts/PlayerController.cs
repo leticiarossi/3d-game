@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (gameManager.GetCandlesLitCounter() == gameManager.GetTotalCandlesNumber()) {
-			SceneManager.LoadScene (11, LoadSceneMode.Single);
+			SceneManager.LoadScene (10, LoadSceneMode.Single);
 		}
 	}
 
